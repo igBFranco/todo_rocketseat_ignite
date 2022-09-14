@@ -16,11 +16,42 @@ export const styles = StyleSheet.create({
         width: 110,
         height: 32,
     },
+    formContainer: {
+        width: "100%",
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
     form: {
         padding: 24,
         marginTop: -55,
         alignItems: "center",
         zIndex: 10
+    },
+    input: {
+        width: 271,
+        height: 54,
+        borderRadius: 6,
+        backgroundColor: "#262626",
+        padding: 16,
+        fontSize: 16,
+        fontFamily: 'Inter_400Regular',
+        borderColor: "#0D0D0D",
+        borderStyle: "solid",
+        borderWidth: 1,
+        color:"#f2f2f2"
+    },
+    button: {
+        width: 52,
+        height: 52,
+        backgroundColor: "#1E6F9F",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 6
+    },
+    icon: {
+        height: 16,
+        width: 16
     },
     tasks: {
         padding: 24,
@@ -29,7 +60,8 @@ export const styles = StyleSheet.create({
     labels: {
         marginTop: 32,
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        marginBottom: 20
     },
     created: {
         flexDirection: "row"
@@ -37,6 +69,7 @@ export const styles = StyleSheet.create({
     textCreated: {
         color: "#4EA8DE",
         fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
     },
     createdCounter: {
         marginLeft: 8,
@@ -57,7 +90,8 @@ export const styles = StyleSheet.create({
     },
     textFinished: {
         color: "#8284fa",
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
     },
     finishedCounter: {
         marginLeft: 8,
@@ -74,7 +108,6 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     line: {
-        marginTop: 20,
         borderTopColor: '#333333',
         borderTopWidth: 1,
     },
@@ -87,10 +120,12 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 14,
         color: "#808080",
-        lineHeight: 20
+        lineHeight: 20,
+        fontFamily: 'Inter_700Bold',
     },
     listEmptyText: {
         fontSize: 14,
-        color: "#808080"
+        color: "#808080",
+        fontFamily: 'Inter_400Regular',
     }
 });

@@ -1,10 +1,38 @@
 import React, { useState } from 'react';
-import { View, Image, Text, FlatList } from 'react-native';
-import { Form } from '../../components/Form';
+import { View, Image, Text, FlatList, Alert, TextInput, TouchableOpacity } from 'react-native';
+import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
+import { Task } from '../../components/Task';
 import { styles } from './styles';
 
 export function Home() {
-    const [tasks, setTasks] = useState<string[]>([]);
+    const [tasks, setTasks] = useState<string[]>(['teste']);
+    const [taskData, setTaskData] = useState('');
+
+    function handleTaskAdd() {
+        setTasks(prevState => [...prevState, taskData]);
+        setTaskData('');
+    }
+    function handleTaskRemove(data: string) {
+        Alert.alert("Remover", `Deseja remover a tarefa ?`, [
+            {
+                text: "Sim",
+                onPress: () => setTasks(prevState => prevState.filter(task => task !== data))
+            },
+            {
+                text: "Não",
+                style: 'cancel'
+
+            }
+        ])
+    }
+
+    let [fontsLoaded] = useFonts({
+        Inter_400Regular,
+      });
+    
+      if (!fontsLoaded) {
+        return null;
+      }
 
   return (
     <View style={styles.container}>
@@ -12,7 +40,18 @@ export function Home() {
             <Image source={require('../../../assets/Logo.png')} style={styles.logo}/>
         </View>
         <View style={styles.form}>
-            <Form/>
+            <View style={styles.formContainer}>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Adicione uma nova tarefa"
+                    placeholderTextColor="#808080"
+                    onChangeText={setTaskData}
+                    value={taskData}
+                />
+                <TouchableOpacity style={styles.button} onPress={handleTaskAdd}>
+                    <Image source={require('../../../assets/plus.png')} style={styles.icon}/>
+                </TouchableOpacity>
+            </View>
         </View>
         <View style={styles.tasks}>
             <View style={styles.labels}>
@@ -22,7 +61,7 @@ export function Home() {
                     </Text>
                     <View style={styles.createdCounter}>
                         <Text style={styles.counter}>
-                            0
+                            {tasks.length}
                         </Text>
                     </View>
                 </View>
@@ -41,12 +80,12 @@ export function Home() {
                  data={tasks}
                  keyExtractor={item => item}
                  renderItem={({ item }) => (
-                    //  <Participant 
-                    //      key={item} 
-                    //      name={item} 
-                    //      onRemove={() => handleParticipantRemove(item)}
-                    //  />
-                    <Text></Text>
+                     <Task 
+                         key={item} 
+                         data={item} 
+                         onRemove={() => handleTaskRemove(item)}
+                         confirm={() => handleTaskRemove(item)}
+                     />
                  )}
                  showsVerticalScrollIndicator={false}
                  ListEmptyComponent={() => (
