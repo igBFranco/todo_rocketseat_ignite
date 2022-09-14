@@ -9,4 +9,8 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 6
     },
+    icon: {
+        height: 16,
+        width: 16
+    }
 });
