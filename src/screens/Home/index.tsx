@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, Text, FlatList, Alert, TextInput, TouchableOpacity } from 'react-native';
 import { useFonts, Inter_400Regular, Inter_700Bold } from '@expo-google-fonts/inter';
+import uuid from 'react-native-uuid';
 import { Task } from '../../components/Task';
 import { styles } from './styles';
 
+export type Task = {
+    data: string;
+    status: boolean;
+}
+
 export function Home() {
-    const [tasks, setTasks] = useState<string[]>(['teste']);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [taskData, setTaskData] = useState('');
+    const [created, setCreated] = useState(0);
+    const [finished, setFinished] = useState(0);
+
+    useEffect(() => {
+        setCreated(tasks.length);
+        setFinished(tasks.filter(task => task.status).length);
+    }, [tasks]);
 
     function handleTaskAdd() {
-        setTasks(prevState => [...prevState, taskData]);
+        const newTask = {data: taskData, status: false};
+        setTasks(prevState => [...prevState, newTask]);
         setTaskData('');
     }
     function handleTaskRemove(data: string) {
         Alert.alert("Remover", `Deseja remover a tarefa ?`, [
             {
                 text: "Sim",
-                onPress: () => setTasks(prevState => prevState.filter(task => task !== data))
+                onPress: () => setTasks(prevState => prevState.filter(task => task.data !== data))
             },
             {
                 text: "Não",
@@ -25,9 +39,21 @@ export function Home() {
             }
         ])
     }
+    function handleTaskConfirm(data: string) {
+        setTasks((prevstate)=> {
+            const task = prevstate.find((task) => task.data === data);
+            if (task) {
+              task.status = !task.status;
+              return [...prevstate];
+            }
+            return prevstate;
+          })
+        
+    }
 
     let [fontsLoaded] = useFonts({
         Inter_400Regular,
+        Inter_700Bold,
       });
     
       if (!fontsLoaded) {
@@ -61,7 +87,7 @@ export function Home() {
                     </Text>
                     <View style={styles.createdCounter}>
                         <Text style={styles.counter}>
-                            {tasks.length}
+                            {created}
                         </Text>
                     </View>
                 </View>
@@ -71,20 +97,20 @@ export function Home() {
                     </Text>
                     <View style={styles.finishedCounter}>
                         <Text style={styles.counter}>
-                            0
+                            {finished}
                         </Text>
                     </View>
                 </View>
             </View>
             <FlatList
                  data={tasks}
-                 keyExtractor={item => item}
+                 keyExtractor={item => item.data}
                  renderItem={({ item }) => (
                      <Task 
-                         key={item} 
-                         data={item} 
-                         onRemove={() => handleTaskRemove(item)}
-                         confirm={() => handleTaskRemove(item)}
+                         key={item.data} 
+                         data={item.data} 
+                         onRemove={() => handleTaskRemove(item.data)}
+                         confirm={() => handleTaskConfirm(item.data)}
                      />
                  )}
                  showsVerticalScrollIndicator={false}

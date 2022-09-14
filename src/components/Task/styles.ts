@@ -18,6 +18,13 @@ export const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 8
     },
+    dataCrossed: {
+        textDecorationLine: "line-through",
+        color: "#808080",
+        fontSize: 14,
+        flex: 1,
+        marginLeft: 8
+    },
     button: {
         width: 36,
         height: 36,
@@ -29,14 +36,13 @@ export const styles = StyleSheet.create({
         width: 36,
         height: 36
     },
-    radio: {
+    checkbox: {
         width: 18,
         height: 18,
         borderRadius: 9999,
         borderWidth: 1.5,
         borderColor: "#4ea8de",
-        alignItems: "center",
-        justifyContent: "center",
+       
         marginLeft: 12,
     },
 });
